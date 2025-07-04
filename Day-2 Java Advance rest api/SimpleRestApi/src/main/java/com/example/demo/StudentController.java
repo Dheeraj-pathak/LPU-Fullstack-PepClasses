@@ -1,0 +1,50 @@
+package com.example.demo;
+
+import org.springframework.web.bind.annotation.*;
+import java.util.*;
+
+@RestController
+@RequestMapping("/students")
+public class StudentController {
+
+    private Map<Long, Student> studentMap = new HashMap<>();
+    private Long nextId = 1L;
+
+    @GetMapping
+    public List<Student> getAllStudents() {
+        return new ArrayList<>(studentMap.values());
+    }
+
+    @GetMapping("/{id}")
+    public Student getStudentById(@PathVariable Long id) {
+        return studentMap.get(id);
+    }
+
+    @PostMapping
+    public Student createStudent(@RequestBody Student student) {
+        student.setId(nextId++);
+        studentMap.put(student.getId(), student);
+        return student;
+    }
+
+    @PutMapping("/{id}")
+    public Student updateStudent(@PathVariable Long id, @RequestBody Student updatedStudent) {
+        Student student = studentMap.get(id);
+        if (student != null) {
+            student.setName(updatedStudent.getName());
+            student.setCourse(updatedStudent.getCourse());
+        }
+        return student;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteStudent(@PathVariable Long id) {
+        studentMap.remove(id);
+    }
+ // Health check endpoint
+    @GetMapping("/")
+    public String home() {
+        return "✅ REST API is working!";
+    }
+
+}
