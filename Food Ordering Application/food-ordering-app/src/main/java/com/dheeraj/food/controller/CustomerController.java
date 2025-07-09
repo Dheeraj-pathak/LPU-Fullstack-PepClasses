@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/customers")
+@CrossOrigin
 public class CustomerController {
 
     @Autowired
@@ -17,6 +18,11 @@ public class CustomerController {
     @GetMapping
     public List<Customer> getAllCustomers() {
         return customerService.getAllCustomers();
+    }
+
+    @GetMapping("/{id}")
+    public Customer getCustomerById(@PathVariable int id) {
+        return customerService.getCustomerById(id);
     }
 
     @PostMapping
@@ -31,7 +37,8 @@ public class CustomerController {
 
     @DeleteMapping("/{id}")
     public String deleteCustomer(@PathVariable int id) {
-        boolean removed = customerService.deleteCustomer(id);
-        return removed ? "Customer deleted successfully." : "Customer not found.";
+        return customerService.deleteCustomer(id)
+            ? "Customer deleted successfully."
+            : "Customer not found.";
     }
 }

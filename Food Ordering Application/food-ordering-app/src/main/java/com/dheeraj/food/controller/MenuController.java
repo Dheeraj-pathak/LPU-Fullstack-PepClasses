@@ -1,38 +1,44 @@
 package com.dheeraj.food.controller;
 
-import java.util.List;
-
+import com.dheeraj.food.model.MenuItem;
+import com.dheeraj.food.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.dheeraj.food.model.MenuItem;
-import com.dheeraj.food.service.MenuService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/menu")
+@CrossOrigin
 public class MenuController {
 
     @Autowired
     private MenuService menuService;
 
     @GetMapping
-    public List<MenuItem> getAllItems() {
-        return menuService.getAllItems();
+    public List<MenuItem> getAllMenuItems() {
+        return menuService.getAllMenuItems();
+    }
+
+    @GetMapping("/{id}")
+    public MenuItem getMenuItemById(@PathVariable int id) {
+        return menuService.getMenuItemById(id);
     }
 
     @PostMapping
-    public MenuItem addItem(@RequestBody MenuItem item) {
-        return menuService.addItem(item);
+    public MenuItem addMenuItem(@RequestBody MenuItem item) {
+        return menuService.addMenuItem(item);
     }
 
     @PutMapping("/{id}")
-    public MenuItem updateItem(@PathVariable int id, @RequestBody MenuItem item) {
-        return menuService.updateItem(id, item);
+    public MenuItem updateMenuItem(@PathVariable int id, @RequestBody MenuItem item) {
+        return menuService.updateMenuItem(id, item);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteItem(@PathVariable int id) {
-        boolean removed = menuService.deleteItem(id);
-        return removed ? "Item deleted successfully" : "Item not found";
+    public String deleteMenuItem(@PathVariable int id) {
+        return menuService.deleteMenuItem(id)
+            ? "Menu item deleted."
+            : "Item not found.";
     }
 }

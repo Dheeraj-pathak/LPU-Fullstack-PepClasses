@@ -1,0 +1,5 @@
+package com.dheeraj.food.repository;
+
+public interface OrderRepository {
+
+}

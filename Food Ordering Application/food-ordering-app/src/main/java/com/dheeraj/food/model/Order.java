@@ -1,26 +1,39 @@
 package com.dheeraj.food.model;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Entity
+@Table(name = "orders")  // ✅ Avoid reserved keyword 'order'
 public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private int customerId;
+
+    @ElementCollection
     private List<Integer> menuItemIds;
+
     private LocalDateTime timestamp;
+
     private double total;
 
-    public Order() {}
-
-    public Order(int id, int customerId, List<Integer> menuItemIds, LocalDateTime timestamp, double total) {
-        this.id = id;
-        this.customerId = customerId;
-        this.menuItemIds = menuItemIds;
-        this.timestamp = timestamp;
-        this.total = total;
+    // Constructors
+    public Order() {
+        this.timestamp = LocalDateTime.now();  // auto-set timestamp
     }
 
-    // Getters and setters
+    public Order(int customerId, List<Integer> menuItemIds, double total) {
+        this.customerId = customerId;
+        this.menuItemIds = menuItemIds;
+        this.total = total;
+        this.timestamp = LocalDateTime.now();  // auto-set timestamp
+    }
+
+    // Getters and Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 

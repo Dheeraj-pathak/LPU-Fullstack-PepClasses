@@ -1,31 +1,40 @@
 package com.dheeraj.food.service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.dheeraj.food.model.Order;
+import com.dheeraj.food.repository.OrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dheeraj.food.model.Order;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService {
 
-    private List<Order> orders = new ArrayList<>();
-    private int currentId = 1;
+    @Autowired
+    private OrderRepository orderRepo;
 
     public List<Order> getAllOrders() {
-        return orders;
+        return orderRepo.findAll();
+    }
+
+    public Order getOrderById(int id) {
+        Optional<Order> optional = orderRepo.findById(id);
+        return optional.orElse(null);
     }
 
     public Order placeOrder(Order order) {
-        order.setId(currentId++);
         order.setTimestamp(LocalDateTime.now());
-        orders.add(order);
-        return order;
+        return orderRepo.save(order);
     }
 
     public boolean cancelOrder(int id) {
-        return orders.removeIf(o -> o.getId() == id);
+        if (orderRepo.existsById(id)) {
+            orderRepo.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }
+

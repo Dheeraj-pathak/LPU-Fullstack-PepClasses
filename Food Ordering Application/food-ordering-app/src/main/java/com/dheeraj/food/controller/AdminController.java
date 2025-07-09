@@ -1,19 +1,19 @@
 package com.dheeraj.food.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import com.dheeraj.food.model.Customer;
 import com.dheeraj.food.model.MenuItem;
 import com.dheeraj.food.model.Order;
 import com.dheeraj.food.service.CustomerService;
 import com.dheeraj.food.service.MenuService;
 import com.dheeraj.food.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin
 public class AdminController {
 
     @Autowired
@@ -25,35 +25,37 @@ public class AdminController {
     @Autowired
     private OrderService orderService;
 
-    // View all customers
+    // ✅ View all customers
     @GetMapping("/customers")
     public List<Customer> getAllCustomers() {
         return customerService.getAllCustomers();
     }
 
-    // View all menu items
+    // ✅ View all menu items
     @GetMapping("/menu")
     public List<MenuItem> getAllMenuItems() {
-        return menuService.getAllItems();
+        return menuService.getAllMenuItems();  // fixed method name
     }
 
-    // View all orders
+    // ✅ View all orders
     @GetMapping("/orders")
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();
     }
 
-    // (Optional) Delete customer
+    // 🗑️ Delete a customer
     @DeleteMapping("/customers/{id}")
     public String deleteCustomer(@PathVariable int id) {
-        boolean removed = customerService.deleteCustomer(id);
-        return removed ? "Customer deleted" : "Customer not found";
+        return customerService.deleteCustomer(id)
+                ? "✅ Customer deleted"
+                : "❌ Customer not found";
     }
 
-    // (Optional) Delete menu item
+    // 🗑️ Delete a menu item
     @DeleteMapping("/menu/{id}")
     public String deleteMenuItem(@PathVariable int id) {
-        boolean removed = menuService.deleteItem(id);
-        return removed ? "Menu item deleted" : "Menu item not found";
+        return menuService.deleteMenuItem(id)
+                ? "✅ Menu item deleted"
+                : "❌ Menu item not found";
     }
 }
