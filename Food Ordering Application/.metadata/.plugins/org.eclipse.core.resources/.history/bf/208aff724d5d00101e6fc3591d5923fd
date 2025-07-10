@@ -1,0 +1,36 @@
+package com.dheeraj.food;
+
+import com.dheeraj.food.model.Customer;
+import com.dheeraj.food.model.MenuItem;
+import com.dheeraj.food.service.CustomerService;
+import com.dheeraj.food.service.MenuService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+@Component
+public class DataLoader implements CommandLineRunner {
+
+    @Autowired
+    private CustomerService customerService;
+
+    @Autowired
+    private MenuService menuService;
+
+    @Override
+    public void run(String... args) throws Exception {
+        // Sample Customers
+        customerService.addCustomer(new Customer(0, "Aarav Mehta", "aarav@example.com", "Mumbai"));
+        customerService.addCustomer(new Customer(0, "Sara Khan", "sara@example.com", "Delhi"));
+        customerService.addCustomer(new Customer(0, "Vikram Iyer", "vikram@example.com", "Bangalore"));
+
+        // Sample Menu Items
+        menuService.addItem(new MenuItem(0, "Paneer Butter Masala", "Rich creamy paneer curry", 220.0));
+        menuService.addItem(new MenuItem(0, "Chicken Biryani", "Spicy aromatic biryani", 180.0));
+        menuService.addItem(new MenuItem(0, "Veg Burger", "Crispy patty burger", 90.0));
+
+        System.out.println("✅ Sample customers and menu items loaded!");
+    }
+}
+

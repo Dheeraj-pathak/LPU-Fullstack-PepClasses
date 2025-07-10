@@ -1,0 +1,48 @@
+package com.dheeraj.food;
+
+import com.dheeraj.food.model.Customer;
+import com.dheeraj.food.model.MenuItem;
+import com.dheeraj.food.service.CustomerService;
+import com.dheeraj.food.service.MenuService;
+import com.dheeraj.food.model.Order;
+import com.dheeraj.food.service.OrderService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+
+@Component
+public class DataLoader implements CommandLineRunner {
+
+    @Autowired
+    private CustomerService customerService;
+
+    @Autowired
+    private MenuService menuService;
+
+    @Autowired
+    private OrderService orderService;
+    
+    @Override
+    public void run(String... args) throws Exception {
+        // Sample Customers
+        customerService.addCustomer(new Customer(0, "Aarav Mehta", "aarav@example.com", "Mumbai"));
+        customerService.addCustomer(new Customer(0, "Sara Khan", "sara@example.com", "Delhi"));
+        customerService.addCustomer(new Customer(0, "Vikram Iyer", "vikram@example.com", "Bangalore"));
+
+        // Sample Menu Items
+        menuService.addMenuItem(new MenuItem(0, "Paneer Tikka", "Spicy grilled paneer cubes", 200.0));
+        menuService.addMenuItem(new MenuItem(0, "Masala Dosa", "Crispy dosa with potato filling", 180.0));
+        menuService.addMenuItem(new MenuItem(0, "Cold Coffee", "Chilled coffee with ice cream", 90.0));
+
+        orderService.placeOrder(new Order(0, 1, Arrays.asList(1, 2), LocalDateTime.now(), 380.0));
+        orderService.placeOrder(new Order(0, 2, Arrays.asList(3), LocalDateTime.now(), 90.0));
+
+        
+        System.out.println("✅ Sample customers and menu items loaded!");
+    }
+}
+

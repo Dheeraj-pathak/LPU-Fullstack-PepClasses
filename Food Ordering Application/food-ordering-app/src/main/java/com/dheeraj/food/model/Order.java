@@ -26,11 +26,12 @@ public class Order {
         this.timestamp = LocalDateTime.now();  // auto-set timestamp
     }
 
-    public Order(int customerId, List<Integer> menuItemIds, double total) {
+    public Order(int id, int customerId, List<Integer> menuItemIds, LocalDateTime timestamp, double total) {
+        this.id = id;
         this.customerId = customerId;
         this.menuItemIds = menuItemIds;
+        this.timestamp = timestamp;
         this.total = total;
-        this.timestamp = LocalDateTime.now();  // auto-set timestamp
     }
 
     // Getters and Setters
